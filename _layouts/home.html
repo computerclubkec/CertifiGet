@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% include header.html %}
+</head>
+
+<body>
+    <div class="event-search py-10">
+        <form action="" method="GET" id="certificate-search-form" class="space-y-4">
+            <!-- Event Selection -->
+            <div>
+                <label for="event" class="block text-lg font-medium">Select Event</label>
+                <select name="event" id="event" class="block w-full border border-gray-300 rounded px-3 py-2" required>
+                    <option value="" disabled selected>Select an event</option>
+                    {% for event in site.events %}
+                    <option value="{{ event.url | remove: 'index' | relative_url }}">{{ event.title }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Name Input -->
+            <div>
+                <label for="name" class="block text-lg font-medium">Enter Your Name</label>
+                <input type="text" name="name" id="name" class="block w-full border border-gray-300 rounded px-3 py-2"
+                    placeholder="e.g., Gaurav" required>
+            </div>
+
+            <!-- Submit Button -->
+            <div>
+                <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+                    Search Certificates
+                </button>
+            </div>
+        </form>
+
+        <!-- Certificate Previews -->
+        <div id="certificate-previews" class="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 hidden">
+
+        </div>
+
+        <!-- No Result Message -->
+        <div id="no-result" class="mt-6 hidden">
+            <p class="text-red-500">No certificates found. Please check the name and event.</p>
+        </div>
+    </div>
+
+    <script src="/assets/js/certificate_search.js"></script>
+</body>
+
+</html>
