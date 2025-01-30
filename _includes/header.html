@@ -4,12 +4,17 @@
 
 <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
 
-<nav>
-    <img src="/assets/images/logo.png" height="60px" width="60px">
-    <ul>
-        <li><a href="/">Home</a></li>
-        <li><a href="/about">About</a></li>
-        <li><a href="/events">Events</a></li>
-        <li><a href="/contact">Contact</a></li>
+<nav class="flex bg-black justify-between p-4">
+    <div class="flex items-center">
+        <img class="h-16 w-16 mr-4 rounded-lg" src="/assets/images/displaypicture.png">
+        <h1 class="text-white font-bold text-2xl">CertiFiget</h1>
+        <span class="text-white text-xl ml-2">| Get your Certificate</span>
+        
+    </div>
+    <ul class="flex text-white mr-10 mt-auto mb-auto">
+        <li><a class="border-1 p-5 mr-2 hover:bg-blue-800" href="/" >Home</a></li>
+        <li><a class="border-1 p-5 mr-2 hover:bg-blue-800" href="/about/">About</a></li>
+        <li><a class="border-1 p-5 mr-2 hover:bg-blue-800" href="/events/">Events</a></li>
+        <li><a class="border-1 p-5 hover:bg-blue-800" href="/contact/">Contact</a></li>
     </ul>
 </nav>

@@ -55,7 +55,11 @@ facebook_username: computerclubkec
 #   - vendor/gems/
 #   - vendor/ruby/
 
+# Add PDF files to Jekyll's processing
+include:
+  - "*/*.pdf"
+
 collections:
   events:
     output: true
-    permalink: /events/:path
+    permalink: /events:path

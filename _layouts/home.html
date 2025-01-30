@@ -7,27 +7,52 @@
 
 <body>
     <div class="event-search py-10">
-        <form action="" method="GET" id="certificate-search-form" class="space-y-4">
-            <!-- Event Selection -->
+
+        <!-- Instructions -->
+        <h1 class="text-center mb-10 text-4xl font-bold">How to Get your Certificate</h1>
+        <div class="flex justify-center space-x-50 ml-auto mr-auto">
             <div>
+                <img class="h-40 w-40 ml-auto mr-auto" src="/assets/images/select_option.svg" alt="">
+                <h2 class="font-medium text-3xl">1. Select Event</h2>
+            </div>
+
+            <div>
+                <img class="h-40 w-40 ml-auto mr-auto" src="/assets/images/search_name.svg" alt="">
+                <h2 class="font-medium text-3xl">2. Search your Name</h2>
+            </div>
+
+            <div>
+                <img class="h-40 w-40 ml-auto mr-auto" src="/assets/images/download_certificate.svg" alt="">
+                <h2 class="font-medium text-3xl">3. Download</h2>
+            </div>
+
+        </div>
+
+        <hr class="w-350 mr-auto ml-auto my-20">
+
+        <form action="" method="GET" id="certificate-search-form" class="space-y-4">
+
+
+            <!-- Event Selection -->
+            <div class="w-150 mr-auto ml-auto">
                 <label for="event" class="block text-lg font-medium">Select Event</label>
                 <select name="event" id="event" class="block w-full border border-gray-300 rounded px-3 py-2" required>
                     <option value="" disabled selected>Select an event</option>
                     {% for event in site.events %}
-                    <option value="{{ event.url | remove: 'index' | relative_url }}">{{ event.title }}</option>
+                    <option value="{{ event.url | remove: 'detail' | relative_url }}">{{ event.title }}</option>
                     {% endfor %}
                 </select>
             </div>
 
             <!-- Name Input -->
-            <div>
+            <div class="w-150 mr-auto ml-auto">
                 <label for="name" class="block text-lg font-medium">Enter Your Name</label>
                 <input type="text" name="name" id="name" class="block w-full border border-gray-300 rounded px-3 py-2"
                     placeholder="e.g., Gaurav" required>
             </div>
 
             <!-- Submit Button -->
-            <div>
+            <div class="w-42 mr-auto ml-auto">
                 <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
                     Search Certificates
                 </button>
@@ -35,17 +60,24 @@
         </form>
 
         <!-- Certificate Previews -->
+         <div class="ml-auto mr-auto text-center mt-10 hidden" id="search_result">
+            <h1 class="text-xl font-bold">
+                Search Results:
+            </h1>
         <div id="certificate-previews" class="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 hidden">
-
+        </div>
         </div>
 
         <!-- No Result Message -->
-        <div id="no-result" class="mt-6 hidden">
+        <div id="no-result" class="mt-6 hidden text-center">
             <p class="text-red-500">No certificates found. Please check the name and event.</p>
         </div>
     </div>
 
     <script src="/assets/js/certificate_search.js"></script>
+    <script src="/assets/js/main.js"></script>
+
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
 </body>
 
 </html>

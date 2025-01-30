@@ -20,31 +20,49 @@ document.getElementById('certificate-search-form').addEventListener('submit', fu
             const matchingCertificates = links.filter(link => searchPattern.test(link.getAttribute('href')));
 
             if (matchingCertificates.length > 0) {
+
                 // Clear previous results
                 document.getElementById('certificate-previews').innerHTML = '';
                 document.getElementById('certificate-previews').classList.remove('hidden');
                 document.getElementById('no-result').classList.add('hidden');
+                document.getElementById('certificate-previews').classList.remove("lg:grid-cols-1")
+                document.getElementById('certificate-previews').classList.remove("lg:grid-cols-2")
+                document.getElementById('certificate-previews').classList.remove("lg:grid-cols-3")
+                document.getElementById('certificate-previews').classList.add("lg:grid-cols-3")
+                
+                if (matchingCertificates.length == 1){
+                    document.getElementById('certificate-previews').classList.remove("lg:grid-cols-3")
+                    document.getElementById('certificate-previews').classList.add("lg:grid-cols-1")
+                }
+                if (matchingCertificates.length == 2){
+                    document.getElementById('certificate-previews').classList.remove("lg:grid-cols-3")
+                    document.getElementById('certificate-previews').classList.remove("lg:grid-cols-2")
+                }
+
+                document.getElementById('search_result').classList.remove('hidden');
 
                 // Display previews for each matching certificate
                 matchingCertificates.forEach(link => {
                     const pdfPath = link.getAttribute('href');
-                    const fileName = pdfPath.split('/').pop();
+                    const fileName = decodeURIComponent(pdfPath.split('/').pop());
 
                     const card = document.createElement('div');
                     card.className = 'border border-gray-300 rounded shadow p-4';
 
                     card.innerHTML = `
-                        <iframe src="${eventUrl+pdfPath}" class="w-full h-50 mb-4" frameborder="0"></iframe>
-                        <p class="text-sm font-medium truncate">${fileName.replace("%20"," ")}</p>
-                        <a href="${eventUrl+pdfPath}" download class="block bg-green-600 text-white text-center px-4 py-2 mt-2 rounded hover:bg-blue-700">
+                        <iframe src="${eventUrl + pdfPath}" class="w-full h-50 mb-4" frameborder="0"></iframe>
+                        <p class="text-sm font-medium truncate">${fileName.replace(/_/g, ' ')}</p>
+                        <a href="${eventUrl + pdfPath}" download class="block bg-green-600 text-white text-center px-4 py-2 mt-2 rounded hover:bg-blue-700">
                             Download
                         </a>
                     `;
 
                     document.getElementById('certificate-previews').appendChild(card);
                 });
+                document.getElementById('certificate-previews').scrollIntoView({ behavior: 'smooth' });
             } else {
                 // Show "no results" message
+                document.getElementById('search_result').classList.add('hidden');
                 document.getElementById('certificate-previews').classList.add('hidden');
                 document.getElementById('no-result').classList.remove('hidden');
             }
