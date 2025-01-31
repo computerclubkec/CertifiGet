@@ -12,17 +12,17 @@
         <h1 class="text-center mb-10 text-4xl font-bold">How to Get your Certificate</h1>
         <div class="flex justify-center space-x-50 ml-auto mr-auto">
             <div>
-                <img class="h-40 w-40 ml-auto mr-auto" src="/assets/images/select_option.svg" alt="">
+                <img class="h-40 w-40 ml-auto mr-auto" src="{{ site.baseurl }}/assets/images/select_option.svg" alt="">
                 <h2 class="font-medium text-3xl">1. Select Event</h2>
             </div>
 
             <div>
-                <img class="h-40 w-40 ml-auto mr-auto" src="/assets/images/search_name.svg" alt="">
+                <img class="h-40 w-40 ml-auto mr-auto" src="{{ site.baseurl }}/assets/images/search_name.svg" alt="">
                 <h2 class="font-medium text-3xl">2. Search your Name</h2>
             </div>
 
             <div>
-                <img class="h-40 w-40 ml-auto mr-auto" src="/assets/images/download_certificate.svg" alt="">
+                <img class="h-40 w-40 ml-auto mr-auto" src="{{ site.baseurl }}/assets/images/download_certificate.svg" alt="">
                 <h2 class="font-medium text-3xl">3. Download</h2>
             </div>
 
@@ -39,7 +39,7 @@
                 <select name="event" id="event" class="block w-full border border-gray-300 rounded px-3 py-2" required>
                     <option value="" disabled selected>Select an event</option>
                     {% for event in site.events %}
-                    <option value="{{ event.url | remove: 'detail' | relative_url }}">{{ event.title }}</option>
+                    <option value="{{ site.baseurl }}/{{ event.url | remove: 'detail' | relative_url }}">{{ event.title }}</option>
                     {% endfor %}
                 </select>
             </div>
@@ -74,8 +74,8 @@
         </div>
     </div>
 
-    <script src="/assets/js/certificate_search.js"></script>
-    <script src="/assets/js/main.js"></script>
+    <script src="{{ site.baseurl }}/assets/js/certificate_search.js"></script>
+    <script src="{{ site.baseurl }}/assets/js/main.js"></script>
 
     <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
 </body>
