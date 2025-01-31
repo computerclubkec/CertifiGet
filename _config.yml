@@ -23,7 +23,7 @@ email: computerclub@kec.edu.np
 description: >- # this means to ignore newlines until "baseurl:"
   Get your certificate for the KEC Computer Club's events that you have joined.
   Claim your participation through this site.
-baseurl: "" # the subpath of your site, e.g. /blog
+baseurl: "/CertifiGet" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: computerclubkec
 github_username:  computerclubkec
