@@ -1,67 +1,58 @@
 document.getElementById('certificate-search-form').addEventListener('submit', function (e) {
     e.preventDefault();
 
-    const eventUrl = document.getElementById('event').value; // Selected event URL
-    const name = document.getElementById('name').value.trim(); // Name entered by user
-    const searchPattern = new RegExp(name.replace(/\s+/g, '_'), 'i'); // Create a case-insensitive search pattern
+    const eventUrl = document.getElementById('event').value;
+    const name = document.getElementById('name').value.trim();
+    const searchPattern = new RegExp(name.replace(/\s+/g, '_'), 'i');
 
-    fetch(eventUrl) // Fetch the event directory
+    fetch(eventUrl)
         .then(response => {
             if (!response.ok) throw new Error('Failed to fetch event directory.');
-            return response.text(); // Get the response as plain text (HTML)
+            return response.json();
         })
-        .then(html => {
-            // Parse the HTML to find all PDF links
-            const parser = new DOMParser();
-            const doc = parser.parseFromString(html, 'text/html');
-            const links = Array.from(doc.querySelectorAll('a[href$=".pdf"]')); // Get all links ending with '.pdf'
+        .then(json_response => {
+            // Find matching certificates by comparing names with search pattern
+            const matchingIndices = json_response
+                .map((item, index) => searchPattern.test(item.name) ? index : -1)
+                .filter(index => index !== -1);
 
-            // Filter PDFs that match the name pattern
-            const matchingCertificates = links.filter(link => searchPattern.test(link.getAttribute('href')));
-
-            if (matchingCertificates.length > 0) {
-
-                // Clear previous results
-                document.getElementById('certificate-previews').innerHTML = '';
-                document.getElementById('certificate-previews').classList.remove('hidden');
+            if (matchingIndices.length > 0) {
+                // Clear and show results container
+                const previewsContainer = document.getElementById('certificate-previews');
+                previewsContainer.innerHTML = '';
+                previewsContainer.classList.remove('hidden');
                 document.getElementById('no-result').classList.add('hidden');
-                document.getElementById('certificate-previews').classList.remove("lg:grid-cols-1")
-                document.getElementById('certificate-previews').classList.remove("lg:grid-cols-2")
-                document.getElementById('certificate-previews').classList.remove("lg:grid-cols-3")
-                document.getElementById('certificate-previews').classList.add("lg:grid-cols-3")
-                
-                if (matchingCertificates.length == 1){
-                    document.getElementById('certificate-previews').classList.remove("lg:grid-cols-3")
-                    document.getElementById('certificate-previews').classList.add("lg:grid-cols-1")
-                }
-                if (matchingCertificates.length == 2){
-                    document.getElementById('certificate-previews').classList.remove("lg:grid-cols-3")
-                    document.getElementById('certificate-previews').classList.remove("lg:grid-cols-2")
-                }
+
+                // Handle grid columns based on results count
+                previewsContainer.classList.remove("lg:grid-cols-1", "lg:grid-cols-2", "lg:grid-cols-3");
+                previewsContainer.classList.add(
+                    matchingIndices.length === 1 ? "lg:grid-cols-1" :
+                    matchingIndices.length === 2 ? "lg:grid-cols-2" :
+                    "lg:grid-cols-3"
+                );
 
                 document.getElementById('search_result').classList.remove('hidden');
 
-                // Display previews for each matching certificate
-                matchingCertificates.forEach(link => {
-                    const pdfPath = link.getAttribute('href');
-                    const fileName = decodeURIComponent(pdfPath.split('/').pop());
-
+                // Create preview cards for matches
+                matchingIndices.forEach(index => {
+                    const item = json_response[index];
                     const card = document.createElement('div');
                     card.className = 'border border-gray-300 rounded shadow p-4';
 
                     card.innerHTML = `
-                        <iframe src="${eventUrl + pdfPath}" class="w-full h-50 mb-4" frameborder="0"></iframe>
-                        <p class="text-sm font-medium truncate">${fileName.replace(/_/g, ' ')}</p>
-                        <a href="${eventUrl + pdfPath}" download class="block bg-green-600 text-white text-center px-4 py-2 mt-2 rounded hover:bg-blue-700">
+                        <iframe src="https://docs.google.com/gview?url=${item.download_url}&embedded=true" allow="*" class="w-full h-50 mb-4" frameborder="0"></iframe>
+                        <p class="text-sm font-medium truncate">${item.name.replace(/_/g, ' ')}</p>
+                        <a href="${item.download_url}" download class="block bg-green-600 text-white text-center px-4 py-2 mt-2 rounded hover:bg-blue-700">
                             Download
                         </a>
                     `;
 
-                    document.getElementById('certificate-previews').appendChild(card);
+                    previewsContainer.appendChild(card);
                 });
-                document.getElementById('certificate-previews').scrollIntoView({ behavior: 'smooth' });
+
+                previewsContainer.scrollIntoView({ behavior: 'smooth' });
             } else {
-                // Show "no results" message
+                // Show no results message
                 document.getElementById('search_result').classList.add('hidden');
                 document.getElementById('certificate-previews').classList.add('hidden');
                 document.getElementById('no-result').classList.remove('hidden');
