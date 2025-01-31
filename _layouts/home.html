@@ -39,7 +39,7 @@
                 <select name="event" id="event" class="block w-full border border-gray-300 rounded px-3 py-2" required>
                     <option value="" disabled selected>Select an event</option>
                     {% for event in site.events %}
-                    <option value="{{ site.baseurl }}/{{ event.url | remove: 'detail' | relative_url }}">{{ event.title }}</option>
+                    <option value="https://github.com/computerclubkec/{{ site.baseurl }}/tree/main/_events/{{ event.url | remove:'detail' | remove:'/events/' }}">{{ event.title }}</option>
                     {% endfor %}
                 </select>
             </div>
