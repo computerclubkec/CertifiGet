@@ -6,72 +6,71 @@
 </head>
 
 <body>
-    <div class="event-search py-10">
-
+    <div class="py-10">
         <!-- Instructions -->
-        <h1 class="text-center mb-10 text-4xl font-bold">How to Get your Certificate</h1>
-        <div class="flex justify-center space-x-50 ml-auto mr-auto">
-            <div>
-                <img class="h-40 w-40 ml-auto mr-auto" src="{{ site.baseurl }}/assets/images/select_option.svg" alt="">
-                <h2 class="font-medium text-3xl">1. Select Event</h2>
+     <h1 class="text-center mb-10 text-3xl md:text-4xl lg:text-5xl font-bold">How to Get your Certificate</h1>
+
+        <div class="flex flex-col md:flex-row justify-center items-center md:space-x-16 lg:space-x-24 space-y-8 md:space-y-0">
+        
+            <div class="flex flex-col items-center text-center">
+                <img class="h-32 w-32 md:h-40 md:w-40 lg:h-48 lg:w-48" src="/CertifiGet/assets/images/select_option.svg" alt="Select Event">
+                <h2 class="font-medium text-xl md:text-3xl lg:text-4xl mt-4">1. Select Event</h2>
             </div>
 
-            <div>
-                <img class="h-40 w-40 ml-auto mr-auto" src="{{ site.baseurl }}/assets/images/search_name.svg" alt="">
-                <h2 class="font-medium text-3xl">2. Search your Name</h2>
+       
+            <div class="flex flex-col items-center text-center">
+                <img class="h-32 w-32 md:h-40 md:w-40 lg:h-48 lg:w-48" src="/CertifiGet/assets/images/search_name.svg" alt="Search Name">
+                <h2 class="font-medium text-xl md:text-3xl lg:text-4xl mt-4">2. Search your Name</h2>
             </div>
 
-            <div>
-                <img class="h-40 w-40 ml-auto mr-auto" src="{{ site.baseurl }}/assets/images/download_certificate.svg" alt="">
-                <h2 class="font-medium text-3xl">3. Download</h2>
+        
+            <div class="flex flex-col items-center text-center">
+                <img class="h-32 w-32 md:h-40 md:w-40 lg:h-48 lg:w-48" src="/CertifiGet/assets/images/download_certificate.svg" alt="Download Certificate">
+                <h2 class="font-medium text-xl md:text-3xl lg:text-4xl mt-4">3. Download</h2>
             </div>
-
         </div>
+    </div>
 
         <hr class="w-350 mr-auto ml-auto my-20">
 
-        <form action="" method="GET" id="certificate-search-form" class="space-y-4">
+ <form action="" method="GET" id="certificate-search-form" class="space-y-6 max-w-3xl mx-auto px-4">
+    <!-- Event Selection -->
+    <div>
+        <label for="event" class="block text-lg md:text-xl font-medium mb-2">Select Event</label>
+        <select name="event" id="event" class="block w-full border border-gray-300 rounded px-3 py-2 md:px-4 md:py-3" required>
+            <option value="" disabled selected>Select an event</option>
+            <option value="event-1">Event 1</option>
+            <option value="event-2">Event 2</option>
+        </select>
+    </div>
 
+    <!-- Name Input -->
+    <div>
+        <label for="name" class="block text-lg md:text-xl font-medium mb-2">Enter Your Name</label>
+        <input type="text" name="name" id="name" class="block w-full border border-gray-300 rounded px-3 py-2 md:px-4 md:py-3"
+            placeholder="e.g., Gaurav" required>
+    </div>
 
-            <!-- Event Selection -->
-            <div class="w-150 mr-auto ml-auto">
-                <label for="event" class="block text-lg font-medium">Select Event</label>
-                <select name="event" id="event" class="block w-full border border-gray-300 rounded px-3 py-2" required>
-                    <option value="" disabled selected>Select an event</option>
-                    {% for event in site.events %}
-                    <option value="https://api.github.com/repos/computerclubkec/CertifiGet/contents/_events/{{ event.url | remove:'detail' | remove:'/events/' }}">{{ event.title }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-
-            <!-- Name Input -->
-            <div class="w-150 mr-auto ml-auto">
-                <label for="name" class="block text-lg font-medium">Enter Your Name</label>
-                <input type="text" name="name" id="name" class="block w-full border border-gray-300 rounded px-3 py-2"
-                    placeholder="e.g., Gaurav" required>
-            </div>
-
-            <!-- Submit Button -->
-            <div class="w-42 mr-auto ml-auto">
-                <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
-                    Search Certificates
-                </button>
-            </div>
-        </form>
+    <!-- Submit Button -->
+    <div class="text-center">
+        <button type="submit" class="bg-blue-600 text-white px-6 py-2 md:px-8 md:py-3 rounded hover:bg-blue-700">
+            Search Certificates
+        </button>
+    </div>
+ </form>
 
         <!-- Certificate Previews -->
-         <div class="ml-auto mr-auto text-center mt-10 hidden" id="search_result">
-            <h1 class="text-xl font-bold">
-                Search Results:
-            </h1>
-        <div id="certificate-previews" class="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 hidden">
+    <div id="search_result" class="ml-auto mr-auto text-center mt-10 hidden">
+        <h1 class="text-xl md:text-2xl font-bold mb-6">
+            Search Results:
+        </h1>
+        <div id="certificate-previews" class="mt-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                 <!-- Dynamically inserted certificate cards -->
         </div>
-        </div>
+    </div>
 
-        <!-- No Result Message -->
-        <div id="no-result" class="mt-6 hidden text-center">
-            <p class="text-red-500">No certificates found. Please check the name and event.</p>
-        </div>
+    <div id="no-result" class="mt-6 text-center hidden">
+        <p class="text-red-500 text-base md:text-lg">No certificates found. Please check the name and event.</p>
     </div>
 
     <script src="{{ site.baseurl }}/assets/js/certificate_search.js"></script>
